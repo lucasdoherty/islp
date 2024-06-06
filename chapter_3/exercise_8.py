@@ -63,6 +63,27 @@ def main():
     # (c) Produce some diagnostic plots of the least squares regression fit
     # as described in the lab. Comment on any problems you see with the fit.
 
+    ax = plt.subplots(figsize=(8, 8))[1]
+    ax.scatter(results.fittedvalues, results.resid)
+    ax.set_xlabel('Fitted value')
+    ax.set_ylabel('Residual')
+    ax.axhline(0, c='k', ls='--')
+    plt.show()
+
+    infl = results.get_influence()
+    ax = plt.subplots(figsize=(8,8))[1]
+    ax.scatter(np.arange(X.shape[0]), infl.hat_matrix_diag)
+    ax.set_xlabel('Index')
+    ax.set_ylabel('Leverage')
+    np.argmax(infl.hat_matrix_diag)
+    plt.show()
+
+    # The first plot shows the relationship is curved and non-linear. There is
+    # also increasing spread of the residuals (heteroscedasticity) as we look
+    # further to the right of the x-axis. This suggests variance of errors that
+    # is not constant across all levels of the predictor. The second plot shows
+    # there are several high leverage points which could influence our model
+    # unfairly in comparison to other observations.
 
 
 if __name__ == "__main__":
